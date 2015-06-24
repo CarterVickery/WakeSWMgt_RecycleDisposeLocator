@@ -124,7 +124,7 @@ function findNearest(latlng) {
 		distances = [];
 	point = latlng
   facilities.eachFeature(function(l) {
-		if ($.inArray(l.feature.properties.category, placeTypes) > -1) {
+		if ($.inArray(l.feature.properties.CATEGORY, placeTypes) > -1) {
 			var coords = L.latLng(l.feature.geometry.coordinates[1], l.feature.geometry.coordinates[0]),
 				dist = latlng.distanceTo(coords);
 			distances.push(dist);
