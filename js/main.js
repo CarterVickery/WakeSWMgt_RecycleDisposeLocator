@@ -161,17 +161,21 @@ function findNearest(latlng) {
 }
 		 
 function createMap() {
-  map = L.map('map').setView([35.81889, -78.64447], 10);
-  L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
-  $.getJSON("facilities.geojson", function (data) {
-    geojson = L.geoJson(data, {
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup('<strong>'+feature.properties.operator+'</strong><br/>'+feature.properties.type+'<br/>'+feature.properties.address+'<br/>'+feature.properties.Hours+'<strong><br/>'+feature.properties.OpenTo);
 
-				$("table tbody").append("<tr><td>"+feature.properties.operator+"</td><td>"+feature.properties.type+"</td><td>"+feature.properties.address+"</td><td>"+feature.properties.Hours+"</td></tr>");
-      }
-    }).addTo(map);
-  });
+  map = L.map('map').setView([35.81889, -78.64447], 10);
+  L.esri.basemapLayer('Gray').addTo(map);
+  L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/SWFacilities/FeatureServer/0').addTo(map);
+
+  //L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
+  // $.getJSON("facilities.geojson", function (data) {
+  //   geojson = L.geoJson(data, {
+  //     onEachFeature: function (feature, layer) {
+  //       layer.bindPopup('<strong>'+feature.properties.operator+'</strong><br/>'+feature.properties.type+'<br/>'+feature.properties.address+'<br/>'+feature.properties.Hours+'<strong><br/>'+feature.properties.OpenTo);
+
+		// 		$("table tbody").append("<tr><td>"+feature.properties.operator+"</td><td>"+feature.properties.type+"</td><td>"+feature.properties.address+"</td><td>"+feature.properties.Hours+"</td></tr>");
+  //     }
+  //   }).addTo(map);
+  // });
   locationGroup = L.featureGroup().addTo(map);
    var locate = L.control.locate().addTo(map);
    map.on("locationfound", function (loc) {
