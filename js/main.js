@@ -123,26 +123,26 @@ function findNearest(latlng) {
 		tbody = $("table tbody").empty(),
 		distances = [];
 	point = latlng
-  facilities.eachFeature(function(feature) {
-		if ($.inArray(feature.properties.CATEGORY, placeTypes) > -1) {
-			var coords = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]),
+  facilities.eachFeature(function(l) {
+		if ($.inArray(l.feature.properties.category, placeTypes) > -1) {
+			var coords = L.latLng(l.feature.geometry.coordinates[1], l.feature.geometry.coordinates[0]),
 				dist = latlng.distanceTo(coords);
 			distances.push(dist);
 			distances.sort(function(a,b) { return a - b;});
 			var idx = distances.indexOf(dist);
 			if ($("tr", tbody).length === 0 || idx >= $("tr", tbody).length ) {
-				tbody.append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				tbody.append("<tr><td>"+l.feature.properties.OPERATOR+"</td><td>"+l.feature.properties.TYPE"</td><td>"+l.feature.properties.ADDRESS+"</td><td>"+l.feature.properties.HOURS+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			else {
-				$("tr:eq("+idx+")", tbody).before("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				$("tr:eq("+idx+")", tbody).before("<tr><td>"+l.feature.properties.OPERATOR+"</td><td>"+l.feature.properties.TYPE"</td><td>"+l.feature.properties.ADDRESS+"</td><td>"+l.feature.properties.HOURS+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			if (cnt === 0) {
 				distance = dist;
-				closest = feature;
+				closest = l;
 			}
 			if (dist < distance) {
 				distance = dist;
-				closest = feature;
+				closest = l;
 			}
 
 			cnt += 1;
@@ -166,7 +166,7 @@ function createMap() {
   L.esri.basemapLayer('Gray').addTo(map);
   facilities = L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0', {
   	onEachFeature: function (feature) {
-	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+feature.properties.OPENTO+"</td><td></td></tr>");
+	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+feature.properties.OPENTO+"</td><td></td></tr>");
   }
   }).addTo(map);
   facilities.bindPopup(function (feature) {
@@ -179,9 +179,9 @@ function createMap() {
   // $.getJSON("facilities.geojson", function (data) {
   //   geojson = L.geoJson(data, {
   //     onEachFeature: function (feature, layer) {
-  //       layer.bindPopup('<strong>'+feature.properties.OPERATOR+'</strong><br/>'+feature.properties.TYPE+'<br/>'+feature.properties.ADDRESS+'<br/>'+feature.properties.HOURS+'<strong><br/>'+feature.properties.OpenTo);
+  //       layer.bindPopup('<strong>'+feature.properties.OPERATOR+'</strong><br/>'+feature.properties.TYPE'<br/>'+feature.properties.ADDRESS+'<br/>'+feature.properties.HOURS+'<strong><br/>'+feature.properties.OpenTo);
 
-		// 		$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td></tr>");
+		// 		$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td></tr>");
   //     }
   //   }).addTo(map);
   // });
