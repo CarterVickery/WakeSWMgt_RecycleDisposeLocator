@@ -166,7 +166,7 @@ function createMap() {
   L.esri.basemapLayer('Gray').addTo(map);
   var facilities = L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0', {
   	onEachFeature: function (feature) {
-	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td></tr>");
+	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+feature.properties.OPENTO+"</td><td></td></tr>");
   }
   }).addTo(map);
   facilities.bindPopup(function (feature) {
