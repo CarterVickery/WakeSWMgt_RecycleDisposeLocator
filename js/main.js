@@ -168,6 +168,9 @@ function createMap() {
   facilities.bindPopup(function (feature) {
   	return L.Util.template('<strong>{OPERATOR}</strong><br/>{TYPE}<br/>{ADDRESS}<br/>{HOURS}<strong><br/>{OPENTO}', feature.properties);
   });
+  facilities.onEachFeature(function (feature) {
+	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td></tr>");
+  });
   //L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
   // $.getJSON("facilities.geojson", function (data) {
   //   geojson = L.geoJson(data, {
