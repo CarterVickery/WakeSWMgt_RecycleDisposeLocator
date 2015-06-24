@@ -164,8 +164,10 @@ function createMap() {
 
   map = L.map('map').setView([35.81889, -78.64447], 10);
   L.esri.basemapLayer('Gray').addTo(map);
-  L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0').addTo(map);
-
+  var facilities = L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0').addTo(map);
+  facilities.bindPopup(function (feature) {
+  	return L.Util.template('<strong>{OPERATOR}</strong><br/>{TYPE}<br/>{ADDRESS}<br/>{HOURS}<strong><br/>{OPENTO}', feature.properties);
+  });
   //L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
   // $.getJSON("facilities.geojson", function (data) {
   //   geojson = L.geoJson(data, {
