@@ -123,26 +123,26 @@ function findNearest(latlng) {
 		tbody = $("table tbody").empty(),
 		distances = [];
 	point = latlng
-  facilities.eachFeature(function(i, l) {
-		if ($.inArray(l.feature.properties.category, placeTypes) > -1) {
-			var coords = L.latLng(l.feature.geometry.coordinates[1], l.feature.geometry.coordinates[0]),
+  facilities.eachFeature(function(feature) {
+		if ($.inArray(feature.properties.category, placeTypes) > -1) {
+			var coords = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]),
 				dist = latlng.distanceTo(coords);
 			distances.push(dist);
 			distances.sort(function(a,b) { return a - b;});
 			var idx = distances.indexOf(dist);
 			if ($("tr", tbody).length === 0 || idx >= $("tr", tbody).length ) {
-				tbody.append("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				tbody.append("<tr><td>"+feature.properties.operator+"</td><td>"+feature.properties.type+"</td><td>"+feature.properties.address+"</td><td>"+feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			else {
-				$("tr:eq("+idx+")", tbody).before("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				$("tr:eq("+idx+")", tbody).before("<tr><td>"+feature.properties.operator+"</td><td>"+feature.properties.type+"</td><td>"+feature.properties.address+"</td><td>"+feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			if (cnt === 0) {
 				distance = dist;
-				closest = l;
+				closest = feature;
 			}
 			if (dist < distance) {
 				distance = dist;
-				closest = l;
+				closest = feature;
 			}
 
 			cnt += 1;
