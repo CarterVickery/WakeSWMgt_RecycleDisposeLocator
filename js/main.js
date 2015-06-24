@@ -164,7 +164,7 @@ function createMap() {
 
   map = L.map('map').setView([35.81889, -78.64447], 10);
   L.esri.basemapLayer('Gray').addTo(map);
-  L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/SWFacilities/FeatureServer/0').addTo(map);
+  L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/FeatureServer/0').addTo(map);
 
   //L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
   // $.getJSON("facilities.geojson", function (data) {
