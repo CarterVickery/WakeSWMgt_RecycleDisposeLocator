@@ -19,7 +19,7 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-  </head>
+	</head>
   <body>
     <div class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
@@ -43,27 +43,47 @@
   </div>
     <div class="jumbotron">
       <img class="pull-left" src="img/wake_county_logo.png" alt="Wake County Logo"/>
-      <h2>Solid Waste Management Division</h2>
-      <p>Locate where to recycle or dispose of materials</p>
+      <h2>Solid Waste</h2>
+      <p>Find where to drop off solid waste materials</p>
     </div>
     <div class="container">
     <div class="row">
-      <div class="col-sm-4">
-<!--         <h4>Search</h4>
- -->        
-        <p><strong>Enter address</strong></p>
-        <input class="form-control typeahead" id="userAddress"/>
-        <p><strong>Select Material</strong></p>
-        <p><select class="form-control">
-         </select></p>
-        <p><button class="btn btn-primary">Search</button></p>
-      </div>
-      <div class="col-sm-8">
+      <div class="col-md-3 col-sm-3 col-xs-12">
+		<div class="panel panel-primary adjust-border-radius">
+			<div class="panel-heading adjust-border"><h4>Starting Location</h4></div>
+			<div class="panel-primary">
+           <p class="form">	
+              <a href="#" onclick="Add function to find current location here" return false;">Find my current location</a>		
+				<br>or</br>
+               Search by Address<input class="form-control typeahead" id="userAddress"/>
+				<br>or</br>
+                Search by Zipcode<input class="form-control typeahead" id="zipSearch"/>
+				<br></br>
+				<div class="panel-heading adjust-border"><h4>Material</h4></div>
+				<br></br>	
+				<select class="form-control"></select>
+				<br></br>
+				<div class="panel-heading adjust-border"><h4>Resident or Business?</h4></div>
+                <br></br>
+				<form>
+				<input type="radio" name="Resident" value="Resident" checked>Resident
+				<br>
+				<input type="radio" name="Business" value="Business">Business
+				</form>
+				</p>
+			</div>
+			<!-- <div class="panel-footer">
+				<a href="#" class="btn btn-primary btn-block btn-lg adjust-border-radius">Find Drop Off Location</a>
+			</div>-->
+		</div>
+	</div>
+       <div class="col-md-7 col-sm-7 col-xs-12">
         <div id="map"></div>
       </div>
       <div class="row">
+	   <div class="col-md-12 col-sm-12 col-xs-12">
         <table class="table table-striped">
-          <thead><th>Name</th><th>Type</th><th>Address</th><th>Hours</th><th>Open To</th><th>Distance</th></thead>
+          <thead><th>Name</th><th>Type</th><th>Address</th><th>Hours</th><th>Distance</th></thead>
           <tbody></tbody>
         </table>
       </div>
@@ -76,8 +96,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/typeahead.min.js"></script>
     <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-    <script src="//cdn.jsdelivr.net/leaflet.esri/latest/esri-leaflet.js"></script>
-    
     <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.24.0/L.Control.Locate.js'></script>
 
     <script src="js/main.js"></script>

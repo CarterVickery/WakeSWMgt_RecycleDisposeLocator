@@ -1,4 +1,4 @@
-var map, geojson, locationGroup, materials, point, facilities;
+var map, geojson, locationGroup, materials, point;
 
 //Result - Small Blue Point - for Geolocated or Searched Location
 function addLocationToMap(latlng) {
@@ -10,15 +10,6 @@ function addLocationToMap(latlng) {
 		locationGroup.addLayer(L.marker(latlng, {icon:icon}));
 }
  
-//Red Icon for Closest Facility
-//Extend the Default marker class
-        var RedIcon = L.Icon.Default.extend({
-            options: {
-            iconUrl: 'img/markerred.png' 
-            }
-         });
-         var redIcon = new RedIcon();
-		 
 function getMaterials () {
   $.getJSON("materials.json", function (data) {
 		materials = data;
@@ -123,18 +114,18 @@ function findNearest(latlng) {
 		tbody = $("table tbody").empty(),
 		distances = [];
 	point = latlng
-  facilities.eachFeature(function(l) {
-		if ($.inArray(l.feature.properties.CATEGORY, placeTypes) > -1) {
+  $(geojson.getLayers()).each(function(i, l) {
+		if ($.inArray(l.feature.properties.category, placeTypes) > -1) {
 			var coords = L.latLng(l.feature.geometry.coordinates[1], l.feature.geometry.coordinates[0]),
 				dist = latlng.distanceTo(coords);
 			distances.push(dist);
 			distances.sort(function(a,b) { return a - b;});
 			var idx = distances.indexOf(dist);
 			if ($("tr", tbody).length === 0 || idx >= $("tr", tbody).length ) {
-				tbody.append("<tr><td>"+l.feature.properties.OPERATOR+"</td><td>"+l.feature.properties.TYPE+"</td><td>"+l.feature.properties.ADDRESS+"</td><td>"+l.feature.properties.HOURS+"</td><td>"+l.feature.properties.OPENTO+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				tbody.append("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			else {
-				$("tr:eq("+idx+")", tbody).before("<tr><td>"+l.feature.properties.OPERATOR+"</td><td>"+l.feature.properties.TYPE+"</td><td>"+l.feature.properties.ADDRESS+"</td><td>"+l.feature.properties.HOURS+"</td><td>"+l.feature.properties.OPENTO+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				$("tr:eq("+idx+")", tbody).before("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			if (cnt === 0) {
 				distance = dist;
@@ -159,32 +150,30 @@ function findNearest(latlng) {
 	$(".leaflet-popup-content .directions").remove();
 	$(".leaflet-popup-content").append("<div class='directions'><br/><a href='"+dirLink+"' target='_blank'>Get Directions</a></div>");
 }
-		 
+
+//Red Icon for Closest Facility
+//Extend the Default marker class
+        var RedIcon = L.Icon.Default.extend({
+            options: {
+            iconUrl: 'img/markerred.png' 
+            }
+         });
+         var redIcon = new RedIcon();
+		 		 
 function createMap() {
+  map = L.map('map').setView([35.81889, -78.64447], 11);
+  L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution:'Wake County GIS'
+	  }).addTo(map);
+  $.getJSON("facilities.geojson", function (data) {
+    geojson = L.geoJson(data, {
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup('<strong>'+feature.properties.operator+'</strong><br/>'+feature.properties.type+'<br/>'+feature.properties.address+'<br/>'+feature.properties.Hours+'<strong><br/>'+feature.properties.OpenTo);
 
-  map = L.map('map').setView([35.81889, -78.64447], 10);
-  L.esri.basemapLayer('Gray').addTo(map);
-  facilities = L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0', {
-  	onEachFeature: function (feature) {
-	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+feature.properties.OPENTO+"</td><td></td></tr>");
-  }
-  }).addTo(map);
-  facilities.bindPopup(function (feature) {
-  	return L.Util.template('<strong>{OPERATOR}</strong><br/>{TYPE}<br/>{ADDRESS}<br/>{HOURS}<strong><br/>{OPENTO}', feature.properties);
+				$("table tbody").append("<tr><td>"+feature.properties.operator+"</td><td>"+feature.properties.type+"</td><td>"+feature.properties.address+"</td><td>"+feature.properties.Hours+"</td></tr>");
+      }
+    }).addTo(map);
   });
-
-
-
-  //L.tileLayer('http://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}').addTo(map);
-  // $.getJSON("facilities.geojson", function (data) {
-  //   geojson = L.geoJson(data, {
-  //     onEachFeature: function (feature, layer) {
-  //       layer.bindPopup('<strong>'+feature.properties.OPERATOR+'</strong><br/>'+feature.properties.TYPE'<br/>'+feature.properties.ADDRESS+'<br/>'+feature.properties.HOURS+'<strong><br/>'+feature.properties.OpenTo);
-
-		// 		$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td></tr>");
-  //     }
-  //   }).addTo(map);
-  // });
   locationGroup = L.featureGroup().addTo(map);
    var locate = L.control.locate().addTo(map);
    map.on("locationfound", function (loc) {
