@@ -122,7 +122,7 @@ function findNearest(latlng) {
 			distances.sort(function(a,b) { return a - b;});
 			var idx = distances.indexOf(dist);
 			if ($("tr", tbody).length === 0 || idx >= $("tr", tbody).length ) {
-				tbody.append("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
+				tbody.append("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+l.feature.propertiesOpenTo+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
 			}
 			else {
 				$("tr:eq("+idx+")", tbody).before("<tr><td>"+l.feature.properties.operator+"</td><td>"+l.feature.properties.type+"</td><td>"+l.feature.properties.address+"</td><td>"+l.feature.properties.Hours+"</td><td>"+Math.round(latlng.distanceTo(coords)/1609.34*10)/10+" miles</td></tr>");
