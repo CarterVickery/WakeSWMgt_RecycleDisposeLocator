@@ -163,7 +163,7 @@ function findNearest(latlng) {
 function createMap() {
 
   map = L.map('map').setView([35.81889, -78.64447], 10);
-  L.esri.BasemapLayer('Gray').addTo(map);
+  L.esri.basemapLayer('Gray').addTo(map);
   facilities = L.esri.featureLayer('http://maps.wakegov.com/arcgis/rest/services/Environmental/SWFacilities/MapServer/0', {
   	onEachFeature: function (feature) {
 	$("table tbody").append("<tr><td>"+feature.properties.OPERATOR+"</td><td>"+feature.properties.TYPE+"</td><td>"+feature.properties.ADDRESS+"</td><td>"+feature.properties.HOURS+"</td><td>"+feature.properties.OPENTO+"</td><td></td></tr>");
